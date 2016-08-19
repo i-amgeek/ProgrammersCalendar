@@ -1,0 +1,30 @@
+{
+  "name": "programmerscalendar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vipinkhushu/ProgrammersCalendar.git"
+  },
+  "keywords": [
+    "programmers",
+    "calendar"
+  ],
+  "author": "vipin khushu and vipul maan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vipinkhushu/ProgrammersCalendar/issues"
+  },
+  "homepage": "https://github.com/vipinkhushu/ProgrammersCalendar#readme",
+  "dependencies" : {
+    "express"    : "latest",
+    "request"    : "latest",
+    "cheerio"    : "latest",
+    "body-parser": "latest",
+    "nodemon"    : "latest"
+  }
+}

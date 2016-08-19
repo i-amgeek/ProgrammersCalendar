@@ -1,15 +1,19 @@
 var express = require('express')
 var request = require('request')
 var cheerio = require('cheerio');
+var moment = require('moment-timezone');
+moment().tz("Asia/Kolkata").format();
 
 var app = express()
-app.set('view engine', 'ejs');
 
 app.get('/', function (req, res) {
-    res.send('Welcome Admin!');
+			res.setHeader('Content-Type', 'application/json');
+			var time = moment ().format("YYYY-MM-DD HH:mm:ss"); 
+            res.send(JSON.stringify({"name":"programmersCalendar API","version":"0.5","authors":"vipinKhushu and vipulMaan","time":time}, null, 3));
 })
 app.get('/scrape/codechef', function (req, res) {
 	//WebScrapper Code Goes Here
+	time = moment ().format("YYYY-MM-DD HH:mm:ss"); 
 	url="https://www.codechef.com/contests";
 	request(url, function(error, response, html){
         if(!error){
@@ -27,7 +31,15 @@ app.get('/scrape/codechef', function (req, res) {
 				}else if(count==4){
 					endTime=$(this).text();
 					count=0;
-					result.push({eventCode: eventCode, eventName: eventName, startTime: startTime,endTime: endTime});
+					if(moment(startTime).isBefore(time)&&moment(endTime).isAfter(moment(time))){
+						var status = "live";
+					}else if(moment(startTime).isAfter(time)){
+						var status = "future";
+					}else{
+						var status = "past";
+					}
+					var link = 'https://www.codechef.com/'+eventCode;
+					result.push({status:status, eventLink:link, eventName: eventName, startTime: startTime,endTime: endTime});
 				};
 			  count+=1;
 			});

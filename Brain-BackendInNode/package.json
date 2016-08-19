@@ -25,6 +25,7 @@
     "request"    : "latest",
     "cheerio"    : "latest",
     "body-parser": "latest",
-    "nodemon"    : "latest"
+    "nodemon"    : "latest",
+    "moment-timezone":"latest"
   }
 }

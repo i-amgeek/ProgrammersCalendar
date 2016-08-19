@@ -24,6 +24,7 @@ if (app.get('env') === 'development') {
 }
 //Index route
 app.get('/', routes)
+app.get('/scrape/codechef',routes)
 app.get('/*', routes)
 
 

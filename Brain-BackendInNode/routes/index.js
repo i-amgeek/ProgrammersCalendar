@@ -52,6 +52,99 @@ app.get('/scrape/codechef', function (req, res) {
 
     
 })
+ flag = 0;
+app.get('/scrape/codeforces', function(req,res){
+
+	request.get('http://codeforces.com/api/contest.list', function(err, response, body) {
+		if (!err && response.statusCode == 200) {
+			var locals = JSON.parse(body);
+			var data = [];
+			for(var i=0;i<20;i++){
+				var myObj = {
+					status: locals.result[i].phase,
+					eventUrl: "http://codeforces.com/enter?back=%2Fcontest%2F" + locals.result[i].id,
+					eventName: locals.result[i].name,
+					startTime: locals.result[i].startTimeSeconds,
+					endtime: locals.result[i].relativeTimeSeconds
+				};
+				data.push(myObj);
+			}
+			res.setHeader('Content-Type', 'application/json');
+			res.send(JSON.stringify(data, null, 3));
+		}
+
+	});
+
+})
+app.get('/scrape/hackerearth', function(req,res){
+
+	request.get('https://www.hackerearth.com/chrome-extension/events/', function(err, response, body) {
+		if (!err && response.statusCode == 200) {
+			var locals = JSON.parse(body);
+			var data = [];
+			for(var i=0;i<20;i++){
+				var myObj = {
+					status: locals.response[i].status,
+					eventName: locals.response[i].title,
+					eventLink: locals.response[i].url,
+					startTime: locals.response[i].start_timestamp,
+					endtime: locals.response[i].end_timestamp
+				};
+				data.push(myObj);
+			}
+			res.setHeader('Content-Type', 'application/json');
+			res.send(JSON.stringify(data, null, 3));
+		}
+	});
+})
+
+app.get('/scrape/hackerrank', function (req, res) {
+
+	request.get('https://www.hackerrank.com/rest/contests/upcoming?offset=0&limit=10&contest_slug=active&_=', function(err, response, body) {
+		if (!err && response.statusCode == 200) {
+			var locals = JSON.parse(body);
+			var data = [];
+			for(var i=0;i<10;i++){
+				var myObj = {
+					status: locals.models[i].started,
+					eventName: locals.models[i].name,
+					eventLink: "https://www.hackerrank.com/contests",
+					startTime: locals.models[i].get_starttimeiso,
+					endtime: locals.models[i].get_endtimeiso
+				};
+				data.push(myObj);
+			}
+			res.setHeader('Content-Type', 'application/json');
+			res.send(JSON.stringify(data, null, 3));
+		}
+	});
+
+})
+
+app.get('/scrape/topcoder', function (req, res) {
+	request.get('https://clients6.google.com/calendar/v3/calendars/appirio.com_bhga3musitat85mhdrng9035jg@group' +
+		'.calendar.google.com/events?calendarId=appirio.com_bhga3musitat85mhdrng9035jg%40group.calendar.google.' +
+		'com&singleEvents=true&timeZone=Asia%2FCalcutta&maxAttendees=1&maxResults=250&sanitizeHtml=true&timeMin=' +
+		'2016-07-10T00%3A00%3A00-04%3A00&key=AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs', function(err, response, body) {
+		if (!err && response.statusCode == 200) {
+			var locals = JSON.parse(body);
+			var data = [];
+			for(var i=0;i<10;i++){
+				var myObj = {
+					status: locals.items[i].status,
+					eventName: locals.items[i].summary,
+					eventLink: locals.items[i].htmlLink,
+					startTime: locals.items[i].start.dateTime,
+					endtime: locals.items[i].end.dateTime
+				};
+				data.push(myObj);
+			}
+			res.setHeader('Content-Type', 'application/json');
+			res.send(JSON.stringify(data, null, 3));
+		}
+	});
+})
+
 app.get('/*', function (req, res) {
     res.send("<h1>404 | Page Not Found<\/h1>")
 })

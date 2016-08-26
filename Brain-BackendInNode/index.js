@@ -27,6 +27,8 @@ app.get('/', routes)
 app.get('/scrape/codechef',routes)
 app.get('/scrape/codeforces',routes)
 app.get('/scrape/hackerearth',routes)
+app.get('/scrape/topcoder',routes)
+app.get('/scrape/hackerrank',routes)
 app.get('/*', routes)
 
 
